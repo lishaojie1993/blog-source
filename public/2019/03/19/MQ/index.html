@@ -1,0 +1,123 @@
+<!DOCTYPE html><html lang="en"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><meta name="description" content="消息队列-MQ"><meta name="keywords" content="分布式,消息队列"><meta name="author" content="lishaojie"><meta name="copyright" content="lishaojie"><title>消息队列-MQ | 李少杰のBlog</title><link rel="shortcut icon" href="/melody-favicon.ico"><link rel="stylesheet" href="/css/index.css?version=1.6.1"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css?version=1.6.1"><meta name="format-detection" content="telephone=no"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  }
+} </script><link rel="alternate" href="/atom.xml" title="李少杰のBlog" type="application/atom+xml">
+</head><body><canvas class="fireworks"></canvas><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div id="sidebar" data-display="true"><div class="toggle-sidebar-info text-center"><span data-toggle="Toggle article">Toggle site</span><hr></div><div class="sidebar-toc"><div class="sidebar-toc__title">Catalog</div><div class="sidebar-toc__progress"><span class="progress-notice">You've read</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么使用消息队列？说说优缺点？"><span class="toc-number">1.</span> <span class="toc-text">为什么使用消息队列？说说优缺点？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不同消息中间件的区别以及适用场景？"><span class="toc-number">2.</span> <span class="toc-text">不同消息中间件的区别以及适用场景？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RabbitMQ如何保证消息队列的高可用？"><span class="toc-number">3.</span> <span class="toc-text">RabbitMQ如何保证消息队列的高可用？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何保证消息不被重复消费？-幂等性"><span class="toc-number">4.</span> <span class="toc-text">如何保证消息不被重复消费？(幂等性)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何保证消息的可靠性传输，不丢消息？"><span class="toc-number">5.</span> <span class="toc-text">如何保证消息的可靠性传输，不丢消息？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何保证消息的顺序性？"><span class="toc-number">6.</span> <span class="toc-text">如何保证消息的顺序性？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如果让你写消息队列，如何架构设计？"><span class="toc-number">7.</span> <span class="toc-text">如果让你写消息队列，如何架构设计？</span></a></li></ol></div></div><div class="author-info hide"><div class="author-info__avatar text-center"><img src="/img/avatar.png"></div><div class="author-info__name text-center">lishaojie</div><div class="author-info__description text-center">Melody</div><div class="follow-button"><a href="https://github.com/lishaojie1993">Follow Me</a></div><hr><div class="author-info-articles"><a class="author-info-articles__archives article-meta" href="/archives"><span class="pull-left">Articles</span><span class="pull-right">28</span></a><a class="author-info-articles__tags article-meta" href="/tags"><span class="pull-left">Tags</span><span class="pull-right">39</span></a><a class="author-info-articles__categories article-meta" href="/categories"><span class="pull-left">Categories</span><span class="pull-right">6</span></a></div><hr><div class="author-info-links"><div class="author-info-links__title text-center">淘宝链接</div><a class="author-info-links__name text-center" href="https://item.taobao.com/item.htm?spm=a1z10.1-c.w137644-18883948773.26.47a25effrGIzfB&amp;id=599185802394">优特家具</a></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(https://tva1.sinaimg.cn/large/006tNbRwgy1gash4k2x0uj31900u0b1g.jpg)"><div id="page-header"><span class="pull-left"> <a id="site-name" href="/">李少杰のBlog</a></span><i class="fa fa-bars toggle-menu pull-right" aria-hidden="true"></i><span class="pull-right menus">   <a class="site-page" href="/">Home</a><a class="site-page" href="/archives">Archives</a><a class="site-page" href="/tags">Tags</a><a class="site-page" href="/categories">Categories</a></span><span class="pull-right"></span></div><div id="post-info"><div id="post-title">消息队列-MQ</div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-19</time><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/Java/">Java</a><span class="post-meta__separator">|</span><i class="fa fa-comment-o post-meta__icon" aria-hidden="true"></i><a href="/2019/03/19/MQ/#disqus_thread"><span class="disqus-comment-count" data-disqus-identifier="2019/03/19/MQ/"></span></a><div class="post-meta-wordcount"><span>Word count: </span><span class="word-count">3.7k</span><span class="post-meta__separator">|</span><span>Reading time: 11 min</span></div></div></div></div><div class="layout" id="content-inner"><article id="post"><div class="article-container" id="post-content"><h2 id="为什么使用消息队列？说说优缺点？"><a href="#为什么使用消息队列？说说优缺点？" class="headerlink" title="为什么使用消息队列？说说优缺点？"></a>为什么使用消息队列？说说优缺点？</h2><p>我们公司有个什么业务场景，这个场景有个什么技术挑战，如果不用MQ会很麻烦，用了MQ之后带来了很多好处。</p>
+<p>比较核心的使用场景有3个：<strong>解耦、异步、削峰</strong>。同样也是使用MQ的<strong>优点</strong>。</p>
+<p><strong>解耦举例</strong>：A系统产生了一条比较重要的数据，B、C、D系统都需要，如果不使用MQ的话，A系统要做很多事情，比如需要分别调用B、C、D系统的接口传递数据，还要考虑接口的参数，可用性等等， 如果有新系统加入的话，还要更改很麻烦。如果使用MQ的话，A系统把产生的数据直接发送到MQ就不用管了，谁需要这条消息自己去MQ里获取，如果某个系统不需要这些消息了就不用去消费数据了，这样A系统就不需要考虑其他系统是否调用成功，接口是否超时，失败重试等等，所有操作就变得很简单。</p>
+<p>总结：通过一个MQ的发布/订阅模型（Pub/Sub）系统A就跟其他系统解耦了。<a id="more"></a></p>
+<p><strong>异步举例</strong>：A系统发起一次请求，假设A系统本地处理SQL并发送需要20ms，然后分别调用B、C、D系统，分别耗时300ms，450ms，200ms，如果是同步调用的话，总耗时就是这几次调用的和，用户的内心是崩溃的。如果使用MQ的话，系统A可以连续发送3条消息到3个MQ队列中，耗时5ms，系统B、C、D自己从对应的消息队列中获取，需要耗时操作在各自系统执行。因为是异步调用，A系统不需要等待反馈，发送成功后直接给用户反馈的时间就是20ms+5ms=25ms，用户爽歪歪。</p>
+<p>总结：系统间非常耗时的调用，可以使用MQ异步化来做性能优化。异步化可以大幅度提升高延时接口的性能。</p>
+<p><strong>削峰举例</strong>：大量用户（几百万）通过浏览器同时在某一时刻进行操作，这时就会有大量的请求涌入，如果超过数据库瓶颈就会把数据库打死，高峰期过后请求会大量减少，这时可以考虑采用MQ做削峰处理。大量的请求直接发送到MQ，各个系统根据自己的处理能力去MQ拉取消息，延时处理MQ积压的请求，达到削峰的效果。</p>
+<p>总结：削峰可以缓解数据库压力，达到最终一致性。</p>
+<p><strong>缺点</strong>：</p>
+<ul>
+<li>系统的可用性降低，系统引入的外部依赖越多，越容易挂掉。MQ发生故障，可能使系统崩溃。</li>
+<li>系统的复杂性提高，还需要考虑重复消费，消息丢失，消息传递顺序性等等一系列问题。</li>
+<li>一致性问题，A系统把请求发送到MQ返回成功了，但是B、C、D消费消息有失败的，如何解决。</li>
+</ul>
+<hr>
+<h2 id="不同消息中间件的区别以及适用场景？"><a href="#不同消息中间件的区别以及适用场景？" class="headerlink" title="不同消息中间件的区别以及适用场景？"></a>不同消息中间件的区别以及适用场景？</h2><ul>
+<li>单机吞吐量：activemq和rabbitmq吞吐量是万级，rocketmq和kafka都是10万级。</li>
+<li>时效性：影响不大，activemq、rocketmq、kafka都在毫秒级，rabbitmq在微秒级。</li>
+<li>可用性：都可以保证，activemq和rabbitmq都是基于主从架构，后两者基于分布式架构。</li>
+</ul>
+<p>优劣势总结</p>
+<ul>
+<li>activemq非常成熟，功能强大，在业内有广泛应用，不过偶尔会有较低概率丢失消息，还有就是开源社区越来越不活跃，维护次数也越来越少，activemq5.x主要是基于解耦和异步来使用的，较少在大规模吞吐量的场景哦中使用。</li>
+<li>rabbitmq并发能力很强，性能极好，延迟很低，特别适合国内中小型公司，提供非常友好的后台管理界面，开源社区相对来说比较活跃。不过确实吞吐量低一些，而且rabbitmq集群动态扩展很麻烦，erlang开发的，很难读懂源码。</li>
+<li>rocketmq的吞吐量很大，阿里开源的采用分布式架构设计的，扩展方便而且可用性很高，经过参数优化配置可以做到消息0丢失，可以支撑大规模吞吐量、业务复杂的场景，社区很活跃，源码是Java的。缺点是如果阿里抛弃这个技术，社区很可能黄掉，需要自己维护。</li>
+<li>kafka也是可以做到大规模吞吐，分布式架构可用性很高，任意扩展，消息0丢失，功能较为简单，在大数据领域的实时计算以及日志采集被大规模使用。kafka唯一的缺点就是可能消息重复消费。</li>
+</ul>
+<p>综上所述：现在越来越多的公司去使用RocketMQ，大型公司并且对自己公司实力有自信的，推荐使用。对于技术实力较为一般、技术挑战不是很高的中小型公司推荐RabbitMQ，如果是大数据领域的实时计算，日志采集等场景，kafka是业内标准，肯定不会黄。</p>
+<hr>
+<h2 id="RabbitMQ如何保证消息队列的高可用？"><a href="#RabbitMQ如何保证消息队列的高可用？" class="headerlink" title="RabbitMQ如何保证消息队列的高可用？"></a>RabbitMQ如何保证消息队列的高可用？</h2><p>RabbitMQ是比较有代表性的，因为是基于<strong>主从架构</strong>实现的的高可用。</p>
+<p>RabbitMQ有三种模式：单机模式，普通集群模式，镜像集群模式。</p>
+<ol>
+<li><p>单机模式</p>
+<p>就是demo级别的，一般就是自己玩玩，没有生产环境使用单机模式的。</p>
+</li>
+<li><p>普通集群模式（不是高可用的）</p>
+<p>意思就是分别在多台机器上启动多个rabbitmq实例，每个机器启动一个，但是你创建的queue只会把元数据和实际数据放在一个rabbitmq实例上，每个实例都去同步queue的元数据。等到你消费的时候，如果你连接到另外一个实例，那么该实例就会从queue所在的实例上拉取实际数据过来。</p>
+<p>该模式有两个缺点：</p>
+<p>​    如果每次随机连接一个实例，可能会在rabbitmq集群内部产生大量的数据传输，造成大量的数据开销；</p>
+<p>​    如果每次都连接queue的实例，那么也就没有什么性能可言，queue宕机后就不能使用了。</p>
+</li>
+<li><p>镜像集群模式（是高可用的）</p>
+<p>这种模式才是真正的rabbitmq的高可用模式，跟普通集群模式不一样的是，你创建的queue，无论是元数据还是queue里的消息都会存在于多个实例上，每次写入消息到queue的时候，都会自动把消息同步到多个实例。</p>
+<p>这样的话好处在于你的任何一个机器宕机了，其他机器都还可以使用。坏处在于开销太大，消息同步所有机器，导致网络带宽压力和消耗都很严重。其次是没有扩展性，如果queue的数据量很大，负载很严重，增加机器也会包含queue的所有数据，并没有办法扩展queue。</p>
+<p><strong>怎么开启这个镜像集群模式呢？</strong></p>
+<p>rabbitmq有很好的管理控制台，在后台新增一个镜像集群模式的策略，指定同步节点的时候要求数据同步到所有节点，再次创建queue的时候，应用这个策略就会自动将数据同步到其他的节点上。</p>
+</li>
+</ol>
+<hr>
+<h2 id="如何保证消息不被重复消费？-幂等性"><a href="#如何保证消息不被重复消费？-幂等性" class="headerlink" title="如何保证消息不被重复消费？(幂等性)"></a>如何保证消息不被重复消费？(幂等性)</h2><p>什么是幂等性，同一条数据重复出现了多次，数据库里只保存一条数据，这就是保证了系统的幂等性。</p>
+<p><strong>如何保证幂等性，需要结合具体的业务场景来思考，先来几个思路：</strong></p>
+<ol>
+<li>比如获取到消息准备写入数据库，先根据主键查一下有没有消费过，如果消费过可以选择不处理或者更新。</li>
+<li>比如是要写入Redis，就不用考虑了，Redis每次都是set，天然幂等性。</li>
+<li>还可以让生产者发送数据时，增加一个全局唯一的ID，维护一张消费记录表，消费数据前，先去消息记录表中查询有没有消费过，如果没有消费就处理，消费过了就不要处理了。</li>
+</ol>
+<hr>
+<h2 id="如何保证消息的可靠性传输，不丢消息？"><a href="#如何保证消息的可靠性传输，不丢消息？" class="headerlink" title="如何保证消息的可靠性传输，不丢消息？"></a>如何保证消息的可靠性传输，不丢消息？</h2><p><strong>消息丢失的3种情况：</strong></p>
+<ol>
+<li><strong>生产者</strong>写入消息的过程中，消息没到rabbitmq，在网络传输过程中丢失了；</li>
+<li><strong>rabbitmq</strong>接受到了消息并暂存入内存，消费者还没来得及消费，rabbitmq自己挂掉了；</li>
+<li><strong>消费者</strong>消费到了这个消息，但是还没来得及处理，自己就挂掉了，rabbitmq以为处理完了。</li>
+</ol>
+<p>情况1<strong>（生产者弄丢了数据）</strong>的解决方案：</p>
+<p><strong>rabbitmq的事务机制</strong>：生产者发送数据之前开启rabbitmq事务（channel.txSelect），然后发送消息，如果消息没有成功被rabbitmq接收到，那么生产者会收到异常报错，此时就可以回滚事务（channel.txRollback），然后重试发送消息，如果收到了消息，就可以提交事务（channel.txCommit）。但是rabbitmq事务一搞，同步机制太耗性能，基本上吞吐量会下来。</p>
+<p><strong>confirm机制</strong>：在生产者那里设置开启confirm模式后，每次写的消息都会分配一个唯一的ID，如果成功写入了rabbitmq中，rabbitmq会回调生产者ack接口，说明这个消息成功写入了。如果rabbitmq没能处理这个消息，会回调一个nack接口，说明这个消息接收失败，需要重发。而且还可以在内存里维护每个消息ID的状态，如果超过一定时间还没有接受到这个消息的回调，也可以重发。</p>
+<p>事务机制和confirm机制最大的不同在于，事务机制是同步的，提交一个事务以后会阻塞在那，但是confirm机制是异步的，发送消息以后可以再发送下一个消息，rabbitmq接收到以后会异步回调生产者接口告知。</p>
+<p>情况2<strong>（rabbitmq弄丢了数据）</strong>的解决方案：</p>
+<p><strong>开启rabbitmq持久化</strong>：意思就是写入消息到rabbitmq后会把消息持久化到磁盘，这样就算rabbitmq自己挂了，恢复之后也会自动读取之前存储的数据，一般数据不会丢。也有可能rabbitmq还没持久化就挂了，导致数据丢失，不过这种情况概率较小。</p>
+<p>设置持久化有两个步骤，第一个步骤是创建queue的时候将其设置为持久化的，这样就可以保证rabbitmq持久化queue的元数据，但是不会持久化queue里的消息；第二个步骤是发送消息的时候将消息的deliveryMode设置为2，就是将消息设置为持久化。此时rabbitmq就会将消息持久化到磁盘了，<strong>注意：必须同时设置这两个才可以</strong>。</p>
+<p>这个持久化可以跟生产者那边的confirm机制配合起来，只有消息被持久化到磁盘之后，才会回调生产者的ack接口，所以即使是持久化到磁盘之前rabbitmq挂了，生产者收不到回调，也是会重发的。</p>
+<p>情况3<strong>（消费者弄丢了数据）</strong>的解决方案：</p>
+<p>消费者有autoAck机制，就是消费数据之后，消费者会自动通知rabbitmq消费成功了。但是如果消费的消息还在处理中，还没处理完，消费者宕机了，还是会造成消息丢失。所以这里我们需要关闭autoAck机制，然后等待消费者完全处理完消息后，再手动发送ack给rabbitmq，此时就不会丢失消息了。</p>
+<hr>
+<h2 id="如何保证消息的顺序性？"><a href="#如何保证消息的顺序性？" class="headerlink" title="如何保证消息的顺序性？"></a>如何保证消息的顺序性？</h2><p>先看看造成消息错乱的场景</p>
+<p>如果rabbitmq的一个queue对应多个consumer，肯定会发生错乱。</p>
+<p>解决方案：</p>
+<p>拆分多个queue，使每个queue对应一个consumer，这样就可以保证消费的顺序性了；</p>
+<p>一个queue只对应一个consumer，让consumer内部用内存队列排队，然后分发给底层不同的worker来处理。</p>
+<hr>
+<p>如何解决消息队列的延迟以及过期失效的问题？消息队列满了以后怎么处理？有几百万条消息持续积压几小时，说说怎么解决？</p>
+<p>一般这个时候，只能操作临时紧急扩容了，具体操作步骤如下：</p>
+<ol>
+<li>先修复consumer的问题，确保其恢复正常的消费速度，然后将现有的consumer都停掉。</li>
+<li>临时建立好原先10倍或者20倍的queue数量。</li>
+<li>然后写一个临时分发数据的consumer程序，把这个程序部署上去消费积压的数据，消费之后不做耗时的处理，直接均匀轮训写入临时建立好的10倍数量的queue。</li>
+<li>接着临时征用10倍的机器来部署consumer，每一批consumer消费一个临时queue的数据。</li>
+<li>这种做法相当于是临时将queue资源和consumer资源扩大10倍，以正常的10倍速度来消耗数据。</li>
+<li>等快速消费完积压的数据之后，得恢复原来部署的架构，重新用原先的consumer机器来消费消息。</li>
+</ol>
+<p>假设使用的是rabbitmq，设置了过期时间，过量积压最终导致大量数据过期后丢失，这种情况只能是批量重导。到了晚上高峰期过后，查询出来丢失的数据，重新灌入到mq中，把丢失的数据补回来。</p>
+<p>如果是因为积压太久导致mq快写满了，只能临时修改程序，快速消费掉所有消息，然后晚上再补数据。</p>
+<hr>
+<h2 id="如果让你写消息队列，如何架构设计？"><a href="#如果让你写消息队列，如何架构设计？" class="headerlink" title="如果让你写消息队列，如何架构设计？"></a>如果让你写消息队列，如何架构设计？</h2><p><strong>下面说一下设计思路</strong></p>
+<ol>
+<li>首先设计的mq得支持可伸缩，就是需要的时候快速扩容，就可以增加容量和吞吐量。所以需要设计一个分布式系统，参照kafka的设计理念，broker -&gt; topic -&gt; partition，每个partition放一个机器，就存一部分数据。如果资源不够了，可以直接给topic增加partition，然后做数据迁移。</li>
+<li>其次设计的mq需要把数据落地到磁盘，防止数据丢失。根据Kafka的设计思路，顺序写，这样就没有磁盘随机读写的寻址开销，磁盘顺序读写的性能是很高的。</li>
+<li>还要考虑一下mq的可用性。具体参照Kafka的高可用环节，多副本 -&gt; leader &amp; follower -&gt; broker 挂了重新选举leader即可对外服务。</li>
+</ol>
+</div></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">lishaojie</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="https://lishaojie1993.github.io/2019/03/19/MQ/">https://lishaojie1993.github.io/2019/03/19/MQ/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/分布式/">分布式</a><a class="post-meta__tags" href="/tags/消息队列/">消息队列</a></div><div class="post-qr-code"><div class="post-qr-code-item"><img class="post-qr-code__img" src="https://i.loli.net/2020/01/07/GWbsNc9tgwDVIPa.png"><div class="post-qr-code__desc">支付宝赞赏</div></div><div class="post-qr-code-item"><img class="post-qr-code__img" src="https://i.loli.net/2020/01/07/r9DjGqAuBXtM2wQ.png"><div class="post-qr-code__desc">微信赞赏</div></div></div><nav id="pagination"><div class="prev-post pull-left"><a href="/2019/06/17/Sort/"><i class="fa fa-chevron-left">  </i><span>八大排序算法整理</span></a></div><div class="next-post pull-right"><a href="/2019/03/19/ConcurrentHashMap/"><span>ConcurrentHashMap底层实现</span><i class="fa fa-chevron-right"></i></a></div></nav><div class="post-adv"><a href="https://item.taobao.com/item.htm?spm=a1z10.1-c.w137644-18883948773.38.556e5eff3UmbVU&id=599185802394"><img src="https://tva1.sinaimg.cn/large/006tNbRwgy1gaq6j5fhawj30t809qdvk.jpg" width="99%" height="33%"></a></div><div id="disqus_thread"></div><script>var unused = null;
+var disqus_config = function () {
+  this.page.url = 'https://lishaojie1993.github.io/2019/03/19/MQ/';
+  this.page.identifier = '2019/03/19/MQ/';
+  this.page.title = '消息队列-MQ';
+}
+var d = document, s = d.createElement('script');
+s.src = "https://" + 'lishaojie1993-blog' +".disqus.com/embed.js";
+s.setAttribute('data-timestamp', '' + +new Date());
+(d.head || d.body).appendChild(s);</script><script id="dsq-count-scr" src="https://lishaojie1993-blog.disqus.com/count.js" async></script></div></div><footer class="footer-bg" style="background-image: url(https://tva1.sinaimg.cn/large/006tNbRwgy1gash4k2x0uj31900u0b1g.jpg)"><div class="layout" id="footer"><div class="copyright">&copy;2017 - 2020 By lishaojie</div><div class="framework-info"><span>Driven - </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>Theme - </span><a href="https://github.com/Molunerfinn/hexo-theme-melody"><span>Melody</span></a></div><div class="busuanzi"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><span id="busuanzi_container_page_pv"><i class="fa fa-file"></i><span id="busuanzi_value_page_pv"></span><span></span></span></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@latest/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-ui-pack@latest/velocity.ui.min.js"></script><script src="/js/utils.js?version=1.6.1"></script><script src="/js/fancybox.js?version=1.6.1"></script><script src="/js/sidebar.js?version=1.6.1"></script><script src="/js/copy.js?version=1.6.1"></script><script src="/js/fireworks.js?version=1.6.1"></script><script src="/js/transition.js?version=1.6.1"></script><script src="/js/scroll.js?version=1.6.1"></script><script src="/js/head.js?version=1.6.1"></script><script>if(/Android|webOS|iPhone|iPod|iPad|BlackBerry/i.test(navigator.userAgent)) {
+  $('#nav').addClass('is-mobile')
+  $('footer').addClass('is-mobile')
+  $('#top-container').addClass('is-mobile')
+}</script></body></html>
